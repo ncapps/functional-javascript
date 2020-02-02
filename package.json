@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
@@ -19,5 +19,8 @@
     "eslint-plugin-import": "^2.19.1",
     "eslint-plugin-jest": "^23.3.0",
     "jest": "^24.9.0"
+  },
+  "dependencies": {
+    "underscore": "^1.9.2"
   }
 }
