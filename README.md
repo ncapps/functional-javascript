@@ -18,6 +18,12 @@
   - Applicative programming techniques are effective when working with collections of data
 
 ## Chapter 3. Variable Scope and Closures 
+  - Global scope is scope accessible to every function in a program
+  - Lexical scope refers to the visibility of a variable and its value analogous to its textual representation. Variable lookup starts at the closest binding context and expands outward until it finds a binding.
+  - Dynamice scope can be practiced in JavaScript by manipulating the *this* reference
+  - Function-local variables live only for the lifetime of a function's body
+  - Closures are a method to pass around ad hoc encapsulated states
+
 
 ## Attribution
 *Functional JavaScript* by Michael Fogus (O’Reilly). Copyright 2013 Michael Fogus, 978-1-449-36072-6.

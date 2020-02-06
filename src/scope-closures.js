@@ -47,3 +47,9 @@ export const pingpong = (function pingpong() {
     },
   };
 }());
+
+export function plucker(field) {
+  return function (obj) {
+    return (obj && obj[field]);
+  };
+}

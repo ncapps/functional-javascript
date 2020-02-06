@@ -1,3 +1,4 @@
+import _ from 'underscore';
 import * as sc from '../src/scope-closures';
 
 describe('closure examples', () => {
@@ -36,5 +37,17 @@ describe('closure examples', () => {
     expect(sc.pingpong.inc(10)).toBe(10);
     expect(sc.pingpong.inc(10)).toBe(20);
     expect(sc.pingpong.dec(7)).toBe(13);
+  });
+
+  test('should plucker', () => {
+    const best = { title: 'Infinite Jest', author: 'DFW' };
+    const books = [{ title: 'Chthon' }, { stars: 5 }, { title: 'Botchan' }];
+    const getTitle = sc.plucker('title');
+    const third = sc.plucker(2);
+
+    expect(getTitle(best)).toBe('Infinite Jest');
+    expect(third(books)).toEqual({ title: 'Botchan' });
+    expect(_.filter(books, getTitle))
+      .toEqual([{ title: 'Chthon' }, { title: 'Botchan' }]);
   });
 });
