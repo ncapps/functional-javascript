@@ -26,7 +26,9 @@
 
 # Chapter 4. Higher-Order Functions
   - A Higher-Order function takes a function as an argument and/or returns a function as a result.
-  - Use functions, not values
+  - Functions can be made more generic by pass a function as an argument rather than a value
+  - Functions returning functions allow for building powerful functions
+  - Currying is a technique of returning a function from another function - taking advantage of captured arguments
 
 ## Attribution
 *Functional JavaScript* by Michael Fogus (O’Reilly). Copyright 2013 Michael Fogus, 978-1-449-36072-6.

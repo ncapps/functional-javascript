@@ -51,5 +51,43 @@ describe('higher-order functions', () => {
     const uniqueString = hof.makeUniqueStringFunction(0);
     expect(uniqueString('dari')).toBe('dari1');
     expect(uniqueString('dari')).toBe('dari2');
+
+    expect(hof.omgenerator.uniqueString('lichking-')).toBe('lichking-1');
+    expect(hof.omgenerator.uniqueString('lichking-')).toBe('lichking-2');
+  });
+
+  test('should fnull', () => {
+    const nums = [1, 2, 3, null, 5];
+    const safeMult = hof.fnull((total, n) => total * n, 1, 1);
+    expect(_.reduce(nums, safeMult)).toBe(30);
+  });
+
+  test('should defaults', () => {
+    expect(hof.doSomething({ critical: 9 })).toBe(9);
+    expect(hof.doSomething({})).toBe(108);
+  });
+
+  test('should checker', () => {
+    const alwaysPasses = hof.checker(hof.always(true), hof.always(true));
+    expect(alwaysPasses({})).toEqual([]);
+    const fails = hof.always(false);
+    fails.message = 'a failure in life';
+    const alwaysFails = hof.checker(fails);
+    expect(alwaysFails({})).toEqual(['a failure in life']);
+  });
+
+  test('should valdiator', () => {
+    const gonnnaFail = hof.checker(hof.validator('ZOMG!', hof.always(false)));
+    expect(gonnnaFail(100)).toEqual(['ZOMG!']);
+    const checkCommand = hof.checker(hof.validator('must be a map', hof.aMap));
+    expect(checkCommand({})).toBeTruthy();
+    expect(checkCommand(42)).toEqual(['must be a map']);
+  });
+
+  test('should checkCommand', () => {
+    const checkCommand = hof.checker(hof.validator('must be a map', hof.aMap), hof.hasKeys('msg', 'type'));
+    expect(checkCommand({ msg: 'blah', type: 'display' })).toEqual([]);
+    expect(checkCommand(32)).toEqual(['must be a map', 'Must have values for keys: msg type']);
+    expect(checkCommand({})).toEqual(['Must have values for keys: msg type']);
   });
 });
