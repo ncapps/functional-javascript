@@ -24,6 +24,9 @@
   - Function-local variables live only for the lifetime of a function's body
   - Closures are a method to pass around ad hoc encapsulated states
 
+# Chapter 4. Higher-Order Functions
+  - A Higher-Order function takes a function as an argument and/or returns a function as a result.
+  - Use functions, not values
 
 ## Attribution
 *Functional JavaScript* by Michael Fogus (O’Reilly). Copyright 2013 Michael Fogus, 978-1-449-36072-6.

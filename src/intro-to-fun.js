@@ -4,7 +4,7 @@ export function existy(x) { return x != null; }
 
 export function truthy(x) { return (x !== false) && existy(x); }
 
-function fail(thing) {
+export function fail(thing) {
   throw new Error(thing);
 }
 
