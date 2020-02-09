@@ -24,11 +24,15 @@
   - Function-local variables live only for the lifetime of a function's body
   - Closures are a method to pass around ad hoc encapsulated states
 
-# Chapter 4. Higher-Order Functions
+## Chapter 4. Higher-Order Functions
   - A Higher-Order function takes a function as an argument and/or returns a function as a result.
   - Functions can be made more generic by pass a function as an argument rather than a value
   - Functions returning functions allow for building powerful functions
   - Currying is a technique of returning a function from another function - taking advantage of captured arguments
+
+## Chapter 5. Function-Building Functions
+  - A curried function is one that returns a new function for every logical argument that it takes
+  - Currying is a useful technique for specifying the specialized behavior of JavaScript functions and for 'composing' new functions from existing functions
 
 ## Attribution
 *Functional JavaScript* by Michael Fogus (O’Reilly). Copyright 2013 Michael Fogus, 978-1-449-36072-6.
