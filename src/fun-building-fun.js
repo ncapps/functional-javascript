@@ -1,6 +1,6 @@
 import _ from 'underscore';
 import { existy } from './intro-to-fun';
-import { construct } from './first-class-fun';
+import { construct, mapcat, cat } from './first-class-fun';
 
 export function dispatch(...functions) {
   const funs = functions.slice();
@@ -49,3 +49,46 @@ export function songToString(song) {
 }
 
 export const songCount = curry2(_.countBy)(songToString);
+
+export function curry3(fun) {
+  return (last) => (middle) => (first) => fun(first, middle, last);
+}
+
+export function toHex(n) {
+  const hex = n.toString(16);
+  return (hex.length < 2) ? [0, hex].join('') : hex;
+}
+
+export function rgbToHexString(r, g, b) {
+  return ['#', toHex(r), toHex(g), toHex(b)].join('');
+}
+
+export const greaterThan = curry2((lhs, rhs) => lhs > rhs);
+
+export const lessThan = curry2((lhs, rhs) => lhs < rhs);
+
+export function partial1(fun, arg1) {
+  return function (...arglist) {
+    const args = construct(arg1, arglist);
+    return fun(...args);
+  };
+}
+
+export function partial(fun, ...pargs) {
+  return function (...args) {
+    const arr = cat(pargs, args);
+    return fun(...arr);
+  };
+}
+
+export function condition1(...vargs) {
+  const validators = vargs;
+  return function (fun, arg) {
+    const errors = mapcat(
+      (isValid) => isValid(arg) ? [] : [isValid.message],
+      validators,
+    );
+    if (!_.isEmpty(errors)) throw new Error(errors.join(', '));
+    return fun(arg);
+  };
+}

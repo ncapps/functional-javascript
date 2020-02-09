@@ -1,8 +1,13 @@
 import _ from 'underscore';
-import { invoker, always } from '../src/higher-order-fun';
+import {
+  invoker, always, checker, validator, hasKeys,
+} from '../src/higher-order-fun';
 import * as fbf from '../src/fun-building-fun';
+import { complement } from '../src/first-class-fun';
 
 describe('function-building functions', () => {
+  function div(n, d) { return n / d; }
+
   test('should dispatch', () => {
     const str = fbf.dispatch(invoker('toString', Array.prototype.toString),
       invoker('toString', String.prototype.toString));
@@ -63,7 +68,6 @@ describe('function-building functions', () => {
   });
 
   test('should curry2', () => {
-    function div(n, d) { return n / d; }
     const div10 = fbf.curry2(div)(10);
     expect(div10(50)).toBe(5);
     const parseBinaryString = fbf.curry2(parseInt)(2);
@@ -93,5 +97,81 @@ describe('function-building functions', () => {
       'Burial-Archangel': 3,
       'Emeralds-Snores': 1,
     });
+
+    const songsPlayed = fbf.curry3(_.uniq)(false)(fbf.songToString);
+    expect(songsPlayed(plays)).toEqual([
+      { artist: 'Burial', track: 'Archangel' },
+      { artist: 'Ben Frost', track: 'Stomp' },
+      { artist: 'Emeralds', track: 'Snores' },
+    ]);
+  });
+
+  test('should rgbToHexString', () => {
+    expect(fbf.rgbToHexString(255, 255, 255)).toBe('#ffffff');
+    const blueGreenish = fbf.curry3(fbf.rgbToHexString)(255)(200);
+    expect(blueGreenish(0)).toBe('#00c8ff');
+  });
+
+  test('should withinRange', () => {
+    const withinRange = checker(
+      validator('arg must be greater than 10', fbf.greaterThan(10)),
+      validator('arg must be less than 20', fbf.lessThan(20)),
+    );
+
+    expect(withinRange(15)).toEqual([]);
+    expect(withinRange(1)).toEqual(['arg must be greater than 10']);
+    expect(withinRange(100)).toEqual(['arg must be less than 20']);
+  });
+
+  test('should partial applications', () => {
+    const over10Part1 = fbf.partial1(div, 10);
+    expect(over10Part1(5)).toBe(2);
+
+    const div10By2By4By5000 = fbf.partial(div, 10, 2, 4, 5000);
+    expect(div10By2By4By5000()).toBe(5);
+  });
+
+  test('should sqr', () => {
+    function zero(n) { return n === 0; }
+    const sqrPre = fbf.condition1(
+      validator('arg must not be zero', complement(zero)),
+      validator('arg must be a number', _.isNumber),
+    );
+    expect(sqrPre(_.identity, 10)).toBe(10);
+    expect(() => { sqrPre(_.identity, ''); }).toThrow(/number/);
+    expect(() => { sqrPre(_.identity, 0); }).toThrow(/zero/);
+
+    function uncheckedSqr(n) { return n * n; }
+    expect(uncheckedSqr('')).toBe(0);
+
+    const checkedSqr = fbf.partial1(sqrPre, uncheckedSqr);
+    expect(checkedSqr(10)).toBe(100);
+    expect(() => checkedSqr('')).toThrow(/number/);
+    expect(() => checkedSqr(0)).toThrow(/zero/);
+
+    const sqrPost = fbf.condition1(
+      validator('result should be a number', _.isNumber),
+      validator('result should not be zero', complement(zero)),
+      validator('result should be positive', fbf.greaterThan(0)),
+    );
+    expect(() => sqrPost(_.identity, 0)).toThrow(/zero/);
+    expect(() => sqrPost(_.identity, -1)).toThrow(/positive/);
+    expect(() => sqrPost(_.identity, '')).toThrow(/number.*positive/);
+
+    const megaCheckedSqr = _.compose(fbf.partial(sqrPost, _.identity), checkedSqr);
+    expect(megaCheckedSqr(10)).toBe(100);
+    expect(() => megaCheckedSqr(0)).toThrow(/zero/);
+    expect(() => megaCheckedSqr(NaN)).toThrow(/result.*positive/);
+  });
+
+  test('should validateCommand', () => {
+    const validateCommand = fbf.condition1(
+      validator('arg must be a map', _.isObject),
+      validator('arg must have the correct keys', hasKeys('msg', 'type')),
+    );
+    const createCommand = fbf.partial(validateCommand, _.identity);
+    expect(() => createCommand({})).toThrow(/keys/);
+    expect(() => createCommand(21)).toThrow(/map/);
+    expect(createCommand({ msg: '', type: '' })).toEqual({ msg: '', type: '' });
   });
 });
