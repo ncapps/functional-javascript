@@ -37,5 +37,20 @@
   - With function composition, code becomes more declarative (i.e., it says what it's supposed to do rather than how)
   - The _.compose higher-order function provided a pre- and post-condition function 'decorator', using a small amount of code
 
+## Chapter 6. Recursion
+  - Recursion is important to functional programming for three reasons:
+    1. Recursive solutions involve the use of a single abstraction applied to subsets of a common problem
+    2. Recursion can hide mutable state
+    3. Recursion is one way to implement laziness and infinitely large structures
+  - Recursive functions should not change the arguments given to them
+  - When writing self-recursive functions:
+    1. Know when to stop
+    2. Decide how to take one step
+    3. Break the problem into that step and a smaller problem
+  - An accumulator argument is a common technique in recursion for communicating information from one recursive call to the next
+  - Using a nested function is a common way to hide accumulators in recursive calls
+  - Two or more functions that call each other are known as mutually recursive
+  - Recursin should be seen as a low-level operation and avoided if possible. A better path is to plug higher-order functions together if possible.
+
 ## Attribution
 *Functional JavaScript* by Michael Fogus (O’Reilly). Copyright 2013 Michael Fogus, 978-1-449-36072-6.
