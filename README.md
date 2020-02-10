@@ -52,5 +52,8 @@
   - Two or more functions that call each other are known as mutually recursive
   - Recursin should be seen as a low-level operation and avoided if possible. A better path is to plug higher-order functions together if possible.
 
+## Chapter 7. Purity, Immutability, and Policies for Change
+  - Functional programming is a way of thinking about how to build programs to minimize the complexities inherent in the creation of software
+
 ## Attribution
 *Functional JavaScript* by Michael Fogus (O’Reilly). Copyright 2013 Michael Fogus, 978-1-449-36072-6.
