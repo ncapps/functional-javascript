@@ -54,6 +54,16 @@
 
 ## Chapter 7. Purity, Immutability, and Policies for Change
   - Functional programming is a way of thinking about how to build programs to minimize the complexities inherent in the creation of software
+  - A pure function adheres to the following properties:
+    1. Its result is calculated only from the values of its arguments
+    2. It cannot rely on data that changes external to its control
+    2. It cannot change the state of something external to its body
+  - Observing a functional style that adheres to a standard of purity where possible will make programs easier to test, and easer to reason about
+  - Pure functions allow for easy composition of functions and makes replacing any given function trivial
+  - Idempotence is the idea that executing an activity numberous times has the same effect as executing it once  
+  - Use a function as a boundary for locatl state mutation, shielding change from the sight of external code
+  - Immutable objects should get their values at construction time and never again change
+  - Operations on immutable objects return fresh objects
 
 ## Attribution
 *Functional JavaScript* by Michael Fogus (O’Reilly). Copyright 2013 Michael Fogus, 978-1-449-36072-6.
