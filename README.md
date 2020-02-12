@@ -65,5 +65,13 @@
   - Immutable objects should get their values at construction time and never again change
   - Operations on immutable objects return fresh objects
 
+## Chapter 8. Flow-Based Programming
+  - Method chaining is enabled by returning the same host object reference from each method
+  - A function that wraps some behavior for later execution is typically called a *thunk*
+  - There are various downsides to method chaining including tight-coupling of object set and get logic and mutation of a common reference
+  - Functional APIs work with values rather than references and return a transformed result
+  - Build powerful abstractions by inserting pipelines into another pipeline
+  - Pipelines coupled with currying and partial application provide a powerful way to compose functions in a fluent manner
+
 ## Attribution
 *Functional JavaScript* by Michael Fogus (O’Reilly). Copyright 2013 Michael Fogus, 978-1-449-36072-6.
